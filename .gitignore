@@ -1,1 +1,7 @@
 *.ini
+
+**/build
+**/install
+**/log
+
+
