@@ -158,7 +158,7 @@ cd /1_node_build		# 进入工作空间
 ### 在工作空间内创建功能包
 
 ```shell
-ros pkg create node_build --build-type ament-python --dependencies rclpy
+ros2 pkg create node_build --build-type ament_python --dependencies rclpy
 ```
 
 创建完毕后的目录如下：
