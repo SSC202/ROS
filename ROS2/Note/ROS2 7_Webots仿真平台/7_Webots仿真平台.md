@@ -126,8 +126,145 @@ Webots 仿真工程由以下部分组成：
 
 > **场景树**
 >
-> 场景树就体现了 Webots文件的基本构成逻辑——树状结构，场景树中的每一个文件都叫一个节点`Node`，节点下可能还有子节点。节点可以嵌套，还拥有属性`Field`。
+> 场景树就体现了 Webots 文件的基本构成逻辑——树状结构，场景树中的每一个文件都叫一个节点`Node`，节点下可能还有子节点。节点可以嵌套，还拥有属性`Field`。
 >
 > **场景树中的节点和物体，是一一对应的关系。**
 
 ### Webots 新建世界和控制器
+
+<font color=LightGreen>1. 新建世界</font>
+
+世界是一个包含物体信息的文件，例如物体的位置、它们的外观、它们如何相互作用、天空的颜色以及重力、摩擦力、物体质量等的定义。 它定义了仿真的初始状态。 
+
+不同的物体称为节点，并在场景树中按层次结构组织。 因此，一个节点可以包含子节点。
+
+> 1. 通过单击工具栏的按钮暂停当前仿真。
+> 2. 从`File / New / New Project Directory...`中新建项目：
+>
+> > 1. 命名项目目录
+> > 2. 命名世界文件
+> > 3. 单击所有复选框，包括默认情况下未勾选的`Add a rectangle arena`
+> > 
+>
+> ![NULL](./assets/picture_2.jpg)
+
+
+存储在世界文件中的 Webots 节点以称为场景树的树结构进行组织。 
+
+可以在主窗口的两个子窗口中查看场景树：3D 视图（位于主窗口的中心）是场景树的 3D 表示，场景树视图（左侧）是场景树的分层表示。 场景树视图是可以修改节点和字段的地方。
+
+> 新建世界后应当存在以下的节点：
+>
+> - `WorldInfo`：包含仿真的全局参数。
+> - `ViewPoints`：定义主视点相机参数。
+> - `TexturedBackground`：定义场景的背景。
+> - `TexturedBackgroundLight`：定义与上述背景关联的光源。
+
+通过添加场景树节点图标以添加障碍物：
+
+![NULL](./assets/picture_3.jpg)
+
+用鼠标选中地图中的障碍物，会出现三个颜色的的箭头，用鼠标点中箭头可实现障碍物的拖动，也可以通过左侧的节点属性栏设置障碍物的尺寸、位置、质量等参数。
+
+![NULL](./assets/picture_4.jpg)
+
+<font color=LightGreen>2. 添加机器人</font>
+
+首先以自带的e-puck电子冰球机器人为例，e-puck是一个小型机器人，具有差速器轮，10个LED和多个传感器，包括8个距离传感器和一个摄像头。
+
+当一个 Webots 世界被修改以保存时，首先暂停仿真并重新加载到其初始状态是必不可少的，即主工具栏上的虚拟时间计数器应显示 `0：00：00：000`。 否则，在每次保存时，每个 3D 对象的位置都会累积错误。 因此，对世界的任何修改都应按以下顺序执行：**暂停、重置、修改和保存仿真**。
+
+<font color=LightGreen>3. 控制器创建</font>
+
+**控制器是定义机器人行为的程序。** Webots控制器可以用以下编程语言编写：C，C++，Java，Python，MATLAB，ROS等。 C、C++ 和 Java 控制器需要先编译，然后才能作为机器人控制器运行。 Python 和 MATLAB 控制器是解释型语言，因此它们无需编译即可运行。
+
+> 1. 首先创建控制器`File / New / New Robot Controller...`
+> 2. 选择编程语言。
+> 3. 如果选择C、C++ 和 Java，编写文件完成后必须进行**保存->编译->保存->运行仿真**，其余语言无需编译。
+> 4. 运行仿真前**将机器人的控制器与编写的控制器相关联**。（`controller`属性）
+
+示例程序，将机器人运动到固定位置：
+
+```c
+#include <webots/robot.h>
+
+// Added a new include file
+#include <webots/motor.h>
+
+#define TIME_STEP 64
+
+int main(int argc, char **argv) {
+     wb_robot_init();
+
+     // get the motor devices
+     WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+     WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+     // set the target position of the motors
+     wb_motor_set_position(left_motor, 10.0);
+     wb_motor_set_position(right_motor, 10.0);
+
+     while (wb_robot_step(TIME_STEP) != -1);
+
+     wb_robot_cleanup();
+
+     return 0;
+}
+```
+
+```python
+from controller import Robot, Motor
+
+TIME_STEP = 64
+
+# create the Robot instance.
+robot = Robot()
+
+# get the motor devices
+leftMotor = robot.getDevice('left wheel motor')
+rightMotor = robot.getDevice('right wheel motor')
+# set the target position of the motors
+leftMotor.setPosition(10.0)
+rightMotor.setPosition(10.0)
+
+while robot.step(TIME_STEP) != -1:
+   pass
+```
+
+### Webots 世界
+
+<font color=LightGreen>1. Solid 节点</font>
+
+Solid 节点表示刚体。 Webots 的物理引擎仅用于模拟刚体。 在设计仿真时，一个重要的步骤是将各种实体分解为单独的刚体。
+
+![NULL](./assets/picture_5.jpg)
+
+要定义刚体，必须创建一个 Solid 节点。在该节点内，可以根据刚体的特性设置不同的子节点。Solid 节点的图形描述由 children 列表的 Shape 节点定义。碰撞边界在`boundingObject` 字段中定义。图形描述和碰撞边界通常但不一定相同。最后，物理属性定义对象属于动态环境还是静态环境。定义物理属性时，需要定义`boundingObject`属性。Geometry 代表任何类型的几何形状。如果物理属性为NULL，刚体将被冻结。
+
+> **创建一个刚体**
+>
+> 1. 在世界的地板上添加一个 Solid 节点；
+>
+> ![NULL](./assets/picture_6.jpg)
+>
+> 2. 向children列表中加入Shape节点，添加刚体的纹理和形状：
+>
+> ![NULL](./assets/picture_7.jpg)
+>
+> 3. 添加碰撞边界和物理属性
+>
+> ![NULL](./assets/picture_8.jpg)
+>
+> 4. 更多的属性请参考 Webots 参考手册。
+
+**`DEF-USE`机制**
+
+`DEF-USE` 机制允许在一个地方定义一个节点，然后在场景树的其他地方重复使用该定义。这对于避免在世界文件中重复相同的节点很有用。此外，它还允许用户同时修改多个对象。
+
+首先用 `DEF` 字符串标记一个节点。然后可以使用 `USE` 关键字在其他地方重复使用此节点的副本。只有 `DEF` 节点的字段可以编辑，`USE` 的字段从 `DEF` 节点继承，不能更改。此机制取决于世界文件中节点的顺序。`DEF` 节点应在任何相应的 `USE` 节点之前定义。
+
+![NULL](./assets/picture_9.jpg)
+
+> 尽可能在 Shape 级别而不是 Geometry 级别使用 `DEF-USE` 机制。实际上，在Solid 节点字段中添加中间 Shape 节点更为方便。
+
+### Webots 控制器
+
