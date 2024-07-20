@@ -194,40 +194,21 @@ Webots 仿真工程由以下部分组成：
 #define TIME_STEP 64
 
 int main(int argc, char **argv) {
-     wb_robot_init();
+ wb_robot_init();
 
-     // get the motor devices
-     WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
-     WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
-     // set the target position of the motors
-     wb_motor_set_position(left_motor, 10.0);
-     wb_motor_set_position(right_motor, 10.0);
+ // get the motor devices
+ WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
+ WbDeviceTag right_motor = wb_robot_get_device("right wheel motor");
+ // set the target position of the motors
+ wb_motor_set_position(left_motor, 10.0);
+ wb_motor_set_position(right_motor, 10.0);
 
-     while (wb_robot_step(TIME_STEP) != -1);
+ while (wb_robot_step(TIME_STEP) != -1);
 
-     wb_robot_cleanup();
+ wb_robot_cleanup();
 
-     return 0;
+ return 0;
 }
-```
-
-```python
-from controller import Robot, Motor
-
-TIME_STEP = 64
-
-# create the Robot instance.
-robot = Robot()
-
-# get the motor devices
-leftMotor = robot.getDevice('left wheel motor')
-rightMotor = robot.getDevice('right wheel motor')
-# set the target position of the motors
-leftMotor.setPosition(10.0)
-rightMotor.setPosition(10.0)
-
-while robot.step(TIME_STEP) != -1:
-   pass
 ```
 
 ### Webots 世界
@@ -266,5 +247,145 @@ Solid 节点表示刚体。 Webots 的物理引擎仅用于模拟刚体。 在�
 
 > 尽可能在 Shape 级别而不是 Geometry 级别使用 `DEF-USE` 机制。实际上，在Solid 节点字段中添加中间 Shape 节点更为方便。
 
+<font color=LightGreen>2. 物理属性</font>
+
+- 质量属性
+
+Solid 节点的质量由其 `density` 或 `mass` 字段给出。一次只能指定这两个字段中的一个（另一个应设置为-1）。
+
+默认情况下，Solid 节点的质心设置在其原点（由`translation`字段定义）。可以使用Physics 节点的 `centerOfMass` 字段修改质心。质心是相对于固体的原点指定的。
+
+- 碰撞属性
+
+当两个实体发生碰撞时，在碰撞点处会产生接触。ContactProperties 节点可用于指定所需的接触行为（例如两个实体之间的摩擦）。
+
+每个 Solid 节点都属于其`contactMaterial`字段引用的材料类别。WorldInfo 节点有一个字段`contactProperties`，用于存储 ContactProperties 节点列表。这些节点允许定义两个类别的固体之间的接触属性。
+
+<font color=LightGreen>3. 复合实体</font>
+
+事实上，Solid 节点的物理和图形属性都可以由多个 Shape 节点组成。此外，每个 Shape 节点都可以放置在 Pose 节点中，以更改其相对位置和方向。 
+
+Group 节点也可用于对多个子节点进行分组。
+
+![NULL](./assets/picture_11.jpg)
+
 ### Webots 控制器
 
+<font color=LightGreen>1. 基本结构</font>
+
+```c
+#include <webots/robot.h>
+#include <stdio.h>
+
+int main() {
+  wb_robot_init();
+
+  while(wb_robot_step(32) != -1)
+    printf("Hello World!\n");
+
+  wb_robot_cleanup();
+  return 0;
+}
+```
+
+> 1. 对于所有 Webots 支持语言，标准输出和错误流都会自动重定向到 Webots 控制台。
+> 2. Webots C API 由常规 C 头文件提供。必须使用类似这样的语句包含这些头文件，`#include <webots/xyz.h>`其中`xyz`代表小写的 Webots 节点名称。
+> 3. 在调用任何其他 C API 函数之前，需要调用初始化`wb_robot_init`函数。此函数初始化控制器和 Webots 之间的通信。`wb_robot_cleanup`则是关闭控制器和 Webots 之间的通信以顺利终止控制器。`wb_robot_init`和`wb_robot_cleanup`函数仅存在于 C API 中，它们在其他受支持的编程语言中没有任何等效函数。
+> 4. `while`循环内会调用`wb_robot_step`函数。该函数将控制器的数据与仿真同步。`wb_robot_step`函数需要存在于每个控制器中，并且必须定期调用，因此通常将其放在主循环中。此函数的参数指定控制步骤的持续时间。此持续时间指定模拟时间量，而不是实际时间，具体取决于模拟世界的复杂性。
+
+<font color=LightGreen>2. 读取传感器值</font>
+
+```c
+#include <webots/robot.h>
+#include <webots/distance_sensor.h>
+#include <stdio.h>
+
+#define TIME_STEP 32
+
+int main() {
+  wb_robot_init();
+
+  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
+  wb_distance_sensor_enable(sensor, TIME_STEP);
+
+  while (wb_robot_step(TIME_STEP) != -1) {
+    const double value = wb_distance_sensor_get_value(sensor);
+    printf("Sensor value is %f\n", value);
+  }
+
+  wb_robot_cleanup();
+  return 0;
+}
+```
+
+> 1. 在使用设备之前，需要获取相应的设备标签（`WbDeviceTag`）；这可以通过使用函数`wb_robot_get_device`完成。`WbDeviceTag`是一种不透明类型，用于在控制器代码中标识设备。请注意，传递给此函数的字符串指的是机器人描述（`.wbt` \ `.proto`）文件中指定的设备名称。如果机器人没有具有指定名称的设备，则此函数返回 0。
+> 1. 每个传感器必须先启用才能使用。如果未启用传感器，它将返回未定义的值。启用传感器是通过使用相应的`wb_*_enable`函数来实现的，其中星号`*`代表传感器类型。每个`wb_*_enable`函数都允许指定以毫秒为单位的更新延迟。更新延迟指定传感器数据两次更新之间的所需间隔。在通常情况下，更新延迟被选择为与控制步长（`TIME_STEP`）相似，因此传感器将在每次`wb_robot_step`函数调用时更新。
+> 1. 调用`wb_*_get_value`函数会检索传感器最新值。
+> 1. 某些设备返回矢量值而不是标量值：
+>
+> ```c
+> const double *wb_gps_get_values(WbDeviceTag tag);
+> 
+> // 应当采用下述方法读取，因为返回的是数组指针
+> const double *values = wb_gps_get_values(gps);
+> 
+> printf("MY_ROBOT is at position: %g %g %g\n", values[0], values[1], values[2]);
+> ```
+
+<font color=LightGreen>3. 使用执行器</font>
+
+```c
+#include <webots/robot.h>
+#include <webots/motor.h>
+#include <math.h>
+
+#define TIME_STEP 32
+
+int main() {
+  wb_robot_init();
+
+  WbDeviceTag motor = wb_robot_get_device("my_motor");
+
+  const double F = 2.0;   // frequency 2 Hz
+  double t = 0.0;         // elapsed simulation time
+
+  while (wb_robot_step(TIME_STEP) != -1) {
+    const double position = sin(t * 2.0 * M_PI * F);
+    wb_motor_set_position(motor, position);
+    t += (double)TIME_STEP / 1000.0;
+  }
+
+  wb_robot_cleanup();
+  return 0;
+}
+```
+
+> 1. 在使用设备之前，需要获取相应的设备标签（`WbDeviceTag`）；
+> 2. 为了控制运动，通常将运动分解为与控制步骤相对应的离散步骤。每次迭代时，计算新的目标位置。`wb_motor_set_position`函数存储相应旋转电机的新位置请求。`wb_motor_set_position`函数存储新位置，但不会立即启动电机。有效驱动从下一行开始，即在调用`wb_robot_step`函数时。`wb_robot_step`函数将驱动命令发送到电机，但它不会等待电机完成运动（即达到指定的目标位置）；它只是在指定的毫秒数内模拟电机的运动。
+
+<font color=LightGreen>4. 仿真步长和控制步长</font>
+
+Webots 使用两个不同的时间步长：
+
+1. 仿真步长（在场景树中指定`WorldInfo.basicTimeStep`）
+2. 控制步长（指定为每个机器人`wb_robot_step`的函数参数）
+
+- 仿真步长是指定的值`WorldInfo.basicTimeStep`（以毫秒为单位）。它表示模拟一个步骤的持续时间，即对每个模拟对象的位置、速度、碰撞等进行两次计算之间的时间间隔。
+- 控制步长是控制回路迭代的持续时间。
+
+- **仿真步骤的执行是一个原子操作，它不能被中断。**因此，传感器测量或电机驱动只能在两个模拟步骤之间进行。因此，**每个`wb_robot_step`函数调用指定的控制步长必须是模拟步长的倍数**。
+
+![NULL](./assets/picture_10.jpg)
+
+<font color=LightGreen>5. 同时使用传感器和执行器</font>
+
+通常推荐的方法是在主控制循环中进行单个`wb_robot_step`函数调用，并使用它来同时更新所有传感器和执行器。
+
+```c
+while (wb_robot_step(40) != -1) {
+  readSensors();
+  actuateMotors();
+}
+```
+
+循环开始时调用`wb_robot_step`函数很重要，以确保读取之前传感器已经具有有效值。否则，传感器在循环的第一次迭代期间将具有未定义的值。
