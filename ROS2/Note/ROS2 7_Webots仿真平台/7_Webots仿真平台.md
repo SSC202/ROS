@@ -390,7 +390,7 @@ while (wb_robot_step(40) != -1) {
 
 循环开始时调用`wb_robot_step`函数很重要，以确保读取之前传感器已经具有有效值。否则，传感器在循环的第一次迭代期间将具有未定义的值。
 
-### 创建机器人
+### Webots 创建机器人
 
 创建机器人模型的一些定义和规则：
 
@@ -401,3 +401,119 @@ while (wb_robot_step(40) != -1) {
 > - Joint 节点用于在其父节点和子节点之间添加自由度。Joint 节点的直接父节点和子节点都是 Solid 节点。
 > - 从 Joint 连接的节点允许在链接的 Solid 节点之间创建不同类型的约束。机器人中最常用的是`HingeJoint`约束。
 > - 位置传感器和电机可以控制 Joint 节点。
+
+- `HingeJoint`约束
+
+`HingeJoint`约束包括三个字段：`jointParameters`，`device`，`endPoint`。
+
+`endPoint`为子节点，定义为 Solid 节点。`device`定义关节设备（电机，位置传感器）用来驱动或者读取关节。`jointParameters`定义子节点和父节点之间的连接关系（用父节点坐标系定义锚点）。
+
+![NULL](./assets/picture_12.jpg)
+
+以四轮车为例，其场景树如下：
+
+![NULL](./assets/picture_13.jpg)
+
+### Webots PROTO 文件
+
+机器人的定义完全包含在 world 文件中。将此定义移到 PROTO 文件中将允许您使用此机器人，而无需完全复制和粘贴其定义。
+
+任何 PROTO 文件应遵循以下结构：
+
+```
+#VRML_SIM R2023a utf8
+PROTO protoName [
+  protoFields
+]
+{
+  protoBody
+}
+```
+
+> - `protoName` 是 PROTO 文件的名称；
+> - `protoFields` 定义 PROTO 节点的可修改字段；
+> - `protoBody`是机器人根节点的定义。可以从`world`文件中复制机器人根节点部分。
+
+新的 PROTO 节点没有任何开放字段，因此无法进行平移、旋转或更改控制器等操作。应当向 PROTO 节点添加新字段并将它们与内部字段链接起来。
+
+以添加平移旋转接口为例：
+
+> 1. 在`protoFields`定义：
+>
+> ```
+>   field SFVec3f    translation  0 0 0
+>   field SFRotation rotation     0 0 1 0
+>   field SFFloat    bodyMass     1
+> ```
+>
+> 此时 PROTO 节点现在有两个开放字段，但它们未链接到任何内部字段。
+>
+> 2. 使用`IS`关键字替换原有字段：
+>
+> ```
+>   translation IS translation
+>   rotation IS rotation
+>   mass IS bodyMass
+> ```
+
+此时 PROTO 节点存在接口。
+
+### Webots Supervisor
+
+Supervisor 负责监督一个世界，并可以设置或获取有关它的信息。
+
+<font color=LightGreen>1. 创建Supervisor</font>
+
+- 删除机器人的控制器，改为`<none>`；
+- 添加简单的 Robot 节点，将其 supervisor 字段设置为 TRUE；
+- 将 Robot(Supervisor) 的控制器进行更改。
+
+<font color=LightGreen>2. 使用Supervisor移动节点</font>
+
+- `#include <webots/supervisor.h>`以导入对应库；
+- 使用`wb_supervisor_node_get_from_def`函数获取节点：（注意传入参数为节点`DEF`名称）
+
+```c
+WbNodeRef bb8_node = wb_supervisor_node_get_from_def("BB-8");
+```
+
+- 使用`wb_supervisor_node_get_field`函数访问节点字段：
+
+```c
+WbFieldRef translation_field = wb_supervisor_node_get_field(bb8_node, "translation");
+```
+
+- 可以根据字段对应的数据类型使用 Supervisor 的 API 进行赋值：
+
+```c
+const double new_value[3] = {2.5, 0, 0};
+wb_supervisor_field_set_sf_vec3f(translation_field, new_value);
+```
+
+<font color=LightGreen>3. 使用Supervisor添加和删除节点</font>
+
+- 使用`wb_supervisor_node_remove`函数可以删除节点。
+
+- 加入节点前，应当使用`IMPORTABLE EXTERNPROTO`按键预导入节点。
+
+- 添加节点时，首先考虑到整个场景树为 Group 节点，使用`wb_supervisor_node_get_root`函数获取场景树节点。从而获得其`children`字段。
+
+```c
+WbNodeRef root_node = wb_supervisor_node_get_root();
+WbFieldRef children_field = wb_supervisor_node_get_field(root_node, "children");
+```
+
+- 生成节点使用`wb_supervisor_field_import_[mf/sf]_node_from_string`函数，`mf_node`代表多字段节点，而`sf_node`代表单字段节点。
+
+```c
+wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { translation 2.5 0 0.334 }");
+```
+
+> `-1`指定我们希望在哪个位置插入节点，在本例中，将其插入到最后一个位置。 `Nao { }`是一个描述我们希望生成的内容的字符串。在花括号内添加字段描述即可。
+
+<font color=LightGreen>4. 使用Supervisor读取位置</font>
+
+- `wb_supervisor_node_get_position`可以读取节点位置。
+
+## 4. Webots - ROS2 
+

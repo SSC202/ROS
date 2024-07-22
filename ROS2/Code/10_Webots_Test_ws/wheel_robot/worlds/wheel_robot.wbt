@@ -7,7 +7,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.28211808726052623 0.8767204646589445 -0.38957747841561213 1.2249541523510306
+  orientation 0.2825679738521417 0.876240046204903 -0.3903315534003429 1.2254415955910902
   position -0.9096972416097127 0.46474628017488134 1.96623730546405
 }
 TexturedBackground {
@@ -150,6 +150,7 @@ Robot {
       }
     }
   ]
+  name "wheelrobot"
   boundingObject USE BODY
   physics Physics {
   }

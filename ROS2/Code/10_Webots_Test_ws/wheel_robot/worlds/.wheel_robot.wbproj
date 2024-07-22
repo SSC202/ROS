@@ -7,6 +7,6 @@ centralWidgetVisible: 1
 projectionMode: PERSPECTIVE
 renderingMode: PLAIN
 orthographicViewHeight: 1
-textFiles: 0 "controllers/wheel_robot_controller/wheel_robot_controller.c"
+textFiles: 1 "controllers/wheel_robot_controller/wheel_robot_controller.c" "protos/WheelsRobot.proto"
 globalOptionalRendering: DistanceSensorRays::CoordinateSystem::ConnectorAxes::ContactPoints
 consoles: Console:All:All
