@@ -517,3 +517,243 @@ wb_supervisor_field_import_mf_node_from_string(children_field, -1, "Nao { transl
 
 ## 4. Webots - ROS2 
 
+> 下述教程基于 Ubuntu 20.04 + ROS2 foxy + Webots 2023a 进行。
+>
+> 使用 humble , iron 或者 jazzy 的配置方法有所不同。
+>
+> 具体使用教程参考[官方手册][https://docs.ros.org/en/foxy/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html]。
+
+<font color=LightGreen>1. 创建功能包</font>
+
+```shell
+ros2 pkg create --build-type ament_python --license Apache-2.0 --node-name my_robot_driver my_package --dependencies rclpy geometry_msgs webots_ros2_driver
+```
+
+注意：创建功能包需要依赖`webots_ros2_driver`。创建功能包如图所示。
+
+```
+src/
+└── my_package/
+    ├── launch/
+    ├── my_package/
+    │   ├── __init__.py
+    │   └── my_robot_driver.py
+    ├── resource/
+    │   └── my_package
+    ├── test/
+    │   ├── test_copyright.py
+    │   ├── test_flake8.py
+    │   └── test_pep257.py
+    ├── worlds/
+    ├── package.xml
+    ├── setup.cfg
+    └── setup.py
+```
+
+<font color=LightGreen>2. 导入仿真环境</font>
+
+创建文件夹`my_package/worlds`，在其中粘贴`.wbt`文件（包含世界和机器人）。
+
+注意：机器人的控制器应当选择为`<extern>`。
+
+<font color=LightGreen>3. 执行器节点</font>
+
+以下为差速双轮车的例子：
+
+```python
+import rclpy
+from geometry_msgs.msg import Twist
+
+HALF_DISTANCE_BETWEEN_WHEELS = 0.045
+WHEEL_RADIUS = 0.025
+
+class MyRobotDriver:
+    """
+    	初始化函数
+    	第二个参数 webots_node: 包含对 Webots 实例的引用
+    	第三个参数 properties: 根据 URDF 文件中给出的 XML 标签创建的字典, 允许将参数传递给控制器
+    """
+    def init(self, webots_node, properties):
+       	# 获取 webots 里的 robot 对象
+        self.__robot = webots_node.robot
+
+        # 获取执行器(电机)对象
+        self.__left_motor = self.__robot.getDevice('left wheel motor')
+        self.__right_motor = self.__robot.getDevice('right wheel motor')
+
+        self.__left_motor.setPosition(float('inf'))
+        self.__left_motor.setVelocity(0)
+
+        self.__right_motor.setPosition(float('inf'))
+        self.__right_motor.setVelocity(0)
+		
+        # 创建接收消息
+        self.__target_twist = Twist()
+
+        # ROS2 节点初始化，创建订阅者
+        rclpy.init(args=None)
+        self.__node = rclpy.create_node('my_robot_driver')
+        self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
+
+        """
+        	订阅消息回调函数
+        """
+    def __cmd_vel_callback(self, twist):
+        self.__target_twist = twist
+
+        """
+        	仿真步骤函数
+        	在仿真的每个时间步骤中都会调用该方法。需要调用rclpy.spin_once()来保持 ROS2 节点平稳运行。
+        """
+    def step(self):
+        rclpy.spin_once(self.__node, timeout_sec=0)
+
+        forward_speed = self.__target_twist.linear.x
+        angular_speed = self.__target_twist.angular.z
+
+        command_motor_left = (forward_speed - angular_speed * HALF_DISTANCE_BETWEEN_WHEELS) / WHEEL_RADIUS
+        command_motor_right = (forward_speed + angular_speed * HALF_DISTANCE_BETWEEN_WHEELS) / WHEEL_RADIUS
+
+        self.__left_motor.setVelocity(command_motor_left)
+        self.__right_motor.setVelocity(command_motor_right)
+```
+
+<font color=LightGreen>4. 控制器节点</font>
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Range
+from geometry_msgs.msg import Twist
+
+
+MAX_RANGE = 0.15
+
+
+class ObstacleAvoider(Node):
+    def __init__(self):
+        super().__init__('obstacle_avoider')
+
+        self.__publisher = self.create_publisher(Twist, 'cmd_vel', 1)
+
+        # 创建订阅者，订阅的消息名在 URDF 文件中定义
+        self.create_subscription(Range, 'left_sensor', self.__left_sensor_callback, 1)
+        self.create_subscription(Range, 'right_sensor', self.__right_sensor_callback, 1)
+
+    def __left_sensor_callback(self, message):
+        self.__left_sensor_value = message.range
+
+    def __right_sensor_callback(self, message):
+        self.__right_sensor_value = message.range
+
+        command_message = Twist()
+
+        command_message.linear.x = 0.1
+
+        if self.__left_sensor_value < 0.9 * MAX_RANGE or self.__right_sensor_value < 0.9 * MAX_RANGE:
+            command_message.angular.z = -2.0
+
+        self.__publisher.publish(command_message)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    avoider = ObstacleAvoider()
+    rclpy.spin(avoider)
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    avoider.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+<font color=LightGreen>5. 编写 URDF 文件</font>
+
+```xml
+<?xml version="1.0" ?>
+<robot name="My robot">
+    <webots>
+        <device reference="ds0" type="DistanceSensor">
+            <ros>
+                <topicName>/left_sensor</topicName>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
+        <device reference="ds1" type="DistanceSensor">
+            <ros>
+                <topicName>/right_sensor</topicName>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
+        <plugin type="my_package.my_robot_driver.MyRobotDriver" />
+    </webots>
+</robot>
+```
+
+> - 创建一个 URDF 文件来声明`MyRobotDriver`插件。这将允许`webots_ros2_driver` ROS 节点启动该插件并将其连接到目标机器人。
+> - `type`属性通过文件的层次结构给出类的路径。 `webots_ros2_driver` 负责根据指定的包和模块加载类。
+> - 这个简单的 URDF 文件不包含有关机器人的任何链接或关节信息。但是需要包含传感器信息。
+> - `webots_ros2_driver`包含用于将大多数 Webots 设备直接与 ROS2 接口的插件。可以使用机器人 URDF 文件中的`<device>`标签加载这些插件。`reference`属性应与 Webots 设备`name`参数匹配。`webots_ros2_driver`将解析`<device>`引用传感器节点的标签，并使用标签中的标准参数`<ros>`来启用传感器并命名其主题。
+
+<font color=LightGreen>5. 编写 Launch 文件</font>
+
+```python
+import os
+import pathlib
+import launch
+from launch_ros.actions import Node
+from launch import LaunchDescription
+from ament_index_python.packages import get_package_share_directory
+from webots_ros2_driver.webots_launcher import WebotsLauncher
+# 以下包在 humble 以上的 ROS2 版本被 webots_ros2_driver.controller 替代
+from webots_ros2_driver.utils import controller_url_prefix
+
+def generate_launch_description():
+    package_dir = get_package_share_directory('my_package')
+    robot_description = pathlib.Path(os.path.join(package_dir, 'resource', 'my_robot.urdf')).read_text()
+
+    # 启动 Webots 仿真实例。必须在构造函数中指定打开哪个世界文件。
+    webots = WebotsLauncher(
+        world=os.path.join(package_dir, 'worlds', 'my_world.wbt')
+    )
+
+    # 创建与模拟机器人交互的 ROS 节点。该节点名为driver，位于webots_ros2_driver包中。该节点将能够使用基于 IPC 和共享内存的自定义协议与模拟机器人进行通信。
+    # 如果在仿真中有更多机器人，则必须为每个机器人运行此节点的一个实例。 WEBOTS_CONTROLLER_URL用于定义驱动程序应连接到的机器人的名称。该controller_url_prefix()方法是必需的，因为它允许webots_ros2_driver根据您的平台添加正确的协议前缀。
+    # 该robot_description参数保存引用插件的 URDF 文件的内容MyRobotDriver。
+    # additional_env 内的 'my_robot' 与世界文件中的机器人名称相匹配。
+    my_robot_driver = Node(
+        package='webots_ros2_driver',
+        executable='driver',
+        output='screen',
+        additional_env={'WEBOTS_CONTROLLER_URL': controller_url_prefix() + 'my_robot'},
+        parameters=[
+            {'robot_description': robot_description},
+        ]
+    )
+
+    obstacle_avoider = Node(
+        package='my_package',
+        executable='obstacle_avoider',
+    )
+
+    return LaunchDescription([
+        webots,
+        my_robot_driver,
+        obstacle_avoider,
+        # 添加一个可选部分，以便在 Webots 终止时（例如，从图形用户界面关闭时）关闭所有节点。
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=webots,
+                on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
+            )
+        )
+    ])
+```
+
+<font color=LightGreen>6. 编写 `setup.py` 文件</font>
+
+<font color=LightGreen>7. 编译功能包并运行验证</font>
