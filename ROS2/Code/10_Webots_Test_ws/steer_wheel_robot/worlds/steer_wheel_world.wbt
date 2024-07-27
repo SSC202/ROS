@@ -1,0 +1,208 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.3711460194163168 -0.02773895736544288 0.9281601060785262 3.2801167160332936
+  position 1.7422747140143071 0.3032033839431243 2.06489342443184
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  translation 0 0 0.04
+  children [
+    DEF BODY_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 1 1
+      }
+      geometry Box {
+        size 0.2 0.2 0.02
+      }
+    }
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.1 0.1 0
+      }
+      device [
+        RotationalMotor {
+          name "steer_wheel_motor1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.1 0.1 0
+        children [
+          DEF STEER_WHEEL_SHAPE Shape {
+            appearance PBRAppearance {
+              baseColor 1 0.2 1
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.01
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+            }
+            device [
+              RotationalMotor {
+                name "go_wheel_motor1"
+              }
+            ]
+            endPoint Solid {
+              rotation 0 -1 0 1.5707996938995745
+              children [
+                DEF GO_WHEEL_SHAPE Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0 0
+                  }
+                  geometry Cylinder {
+                    height 0.02
+                    radius 0.04
+                  }
+                }
+              ]
+              name "go_wheel1"
+              boundingObject USE GO_WHEEL_SHAPE
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "steer_wheel1"
+        boundingObject USE STEER_WHEEL_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.1 -0.1 0
+      }
+      device [
+        RotationalMotor {
+          name "steer_wheel_motor2"
+        }
+      ]
+      endPoint Solid {
+        translation 0.1 -0.1 0
+        children [
+          USE STEER_WHEEL_SHAPE
+          HingeJoint {
+            jointParameters HingeJointParameters {
+            }
+            device [
+              RotationalMotor {
+                name "go_wheel_motor2"
+              }
+            ]
+            endPoint Solid {
+              rotation 0 -1 0 1.5708003061004252
+              children [
+                USE GO_WHEEL_SHAPE
+              ]
+              name "go_wheel2"
+              boundingObject USE GO_WHEEL_SHAPE
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "steer_wheel2"
+        boundingObject USE STEER_WHEEL_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.1 0.1 0
+      }
+      device [
+        RotationalMotor {
+          name "steer_wheel_motor3"
+        }
+      ]
+      endPoint Solid {
+        translation -0.1 0.1 0
+        children [
+          USE STEER_WHEEL_SHAPE
+          HingeJoint {
+            jointParameters HingeJointParameters {
+            }
+            device [
+              RotationalMotor {
+                name "go_wheel_motor3"
+              }
+            ]
+            endPoint Solid {
+              rotation 0 -1 0 1.5707996938995745
+              children [
+                USE GO_WHEEL_SHAPE
+              ]
+              boundingObject USE GO_WHEEL_SHAPE
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "steer_wheel3"
+        boundingObject USE STEER_WHEEL_SHAPE
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.1 -0.1 0
+      }
+      device [
+        RotationalMotor {
+          name "steer_wheel_motor4"
+        }
+      ]
+      endPoint Solid {
+        translation -0.1 -0.1 0
+        children [
+          USE STEER_WHEEL_SHAPE
+          HingeJoint {
+            jointParameters HingeJointParameters {
+            }
+            device [
+              RotationalMotor {
+                name "go_wheel_motor4"
+              }
+            ]
+            endPoint Solid {
+              rotation 0 -1 0 1.5707996938995745
+              children [
+                USE GO_WHEEL_SHAPE
+              ]
+              boundingObject USE GO_WHEEL_SHAPE
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject USE STEER_WHEEL_SHAPE
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE BODY_SHAPE
+  physics Physics {
+  }
+  controller "steer_wheel_test_controller"
+}
