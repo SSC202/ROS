@@ -8,7 +8,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.3711460194163168 -0.02773895736544288 0.9281601060785262 3.2801167160332936
-  position 1.7422747140143071 0.3032033839431243 2.06489342443184
+  position 1.3107193231897647 0.23832928177139795 1.649452881796497
 }
 TexturedBackground {
 }
@@ -204,5 +204,5 @@ Robot {
   boundingObject USE BODY_SHAPE
   physics Physics {
   }
-  controller "steer_wheel_test_controller"
+  controller "steer_wheel_solve_controller"
 }
