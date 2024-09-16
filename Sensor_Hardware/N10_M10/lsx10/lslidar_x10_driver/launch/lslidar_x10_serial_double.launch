@@ -1,0 +1,32 @@
+<launch>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="LeftLidar">
+    <param name="lidar_name" value="M10"/>                          #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="serial_port" value="/dev/ttyUSB0"/>                #雷达连接的串口
+    <param name="interface_selection" value="serial"/>              #接口选择:net 为网口,serial 为串口。
+    <param name="child_frame_id" value="laser_link"/>               #激光坐标
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="angle_disable_min" value="0.0"/>                   #角度裁剪开始值
+    <param name="angle_disable_max" value="0.0"/>                   #角度裁剪结束值
+    <param name="min_range" value="0"/>                             #雷达接收距离最小值
+    <param name="max_range" value="100.0"/>                         #雷达接收距离最大值
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+  </node>
+
+  <node pkg="lslidar_x10_driver" type="lslidar_x10_driver_node" name="lslidar_x10_driver_node" output="screen" ns="RightLidar">
+    <param name="lidar_name" value="M10"/>                          #雷达选择:M10 M10_P M10_PLUS M10_GPS N10
+    <param name="serial_port" value="/dev/ttyUSB0"/>                #雷达连接的串口
+    <param name="interface_selection" value="serial"/>              #接口选择:net 为网口,serial 为串口。
+    <param name="child_frame_id" value="laser_link"/>               #激光坐标
+    <param name="scan_topic" value="scan"/>                         #设置激光数据topic名称
+    <param name="angle_disable_min" value="0.0"/>                   #角度裁剪开始值
+    <param name="angle_disable_max" value="0.0"/>                   #角度裁剪结束值
+    <param name="min_range" value="0"/>                             #雷达接收距离最小值
+    <param name="max_range" value="100.0"/>                         #雷达接收距离最大值
+    <param name="use_gps_ts" value="false"/>                        #雷达是否使用GPS授时
+
+    
+  </node>
+
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find lslidar_x10_decoder)/rviz/default.rviz" output="screen"/>      #雷达点云配置
+</launch>
