@@ -1,0 +1,27 @@
+[1.872s] Invoking command in '/home/ssc/Desktop/webots_ros2_test_ws/src/my_package': PYTHONPATH=/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/my_package build --build-base /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build install --record /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log --install-scripts $base/lib/my_package --single-version-externally-managed install_data
+[2.559s] running egg_info
+[2.565s] writing ../../build/my_package/my_package.egg-info/PKG-INFO
+[2.566s] writing dependency_links to ../../build/my_package/my_package.egg-info/dependency_links.txt
+[2.566s] writing entry points to ../../build/my_package/my_package.egg-info/entry_points.txt
+[2.566s] writing requirements to ../../build/my_package/my_package.egg-info/requires.txt
+[2.566s] writing top-level names to ../../build/my_package/my_package.egg-info/top_level.txt
+[2.688s] reading manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+[2.695s] writing manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+[2.695s] running build
+[2.695s] running build_py
+[2.696s] copying my_package/obstacle_avoider.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package
+[2.697s] running install
+[2.699s] running install_lib
+[2.702s] copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/obstacle_avoider.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package
+[2.708s] byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/obstacle_avoider.py to obstacle_avoider.cpython-38.pyc
+[2.712s] running install_data
+[2.714s] copying launch/robot_launch.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/launch
+[2.717s] copying resource/my_robot.urdf -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/resource
+[2.719s] running install_egg_info
+[2.722s] removing '/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package-0.0.0-py3.8.egg-info' (and everything under it)
+[2.731s] Copying ../../build/my_package/my_package.egg-info to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package-0.0.0-py3.8.egg-info
+[2.738s] running install_scripts
+[2.771s] Installing my_robot_driver script to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/my_package
+[2.782s] Installing obstacle_avoider script to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/my_package
+[2.782s] writing list of installed files to '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log'
+[2.827s] Invoked command in '/home/ssc/Desktop/webots_ros2_test_ws/src/my_package' returned '0': PYTHONPATH=/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/my_package build --build-base /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build install --record /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log --install-scripts $base/lib/my_package --single-version-externally-managed install_data

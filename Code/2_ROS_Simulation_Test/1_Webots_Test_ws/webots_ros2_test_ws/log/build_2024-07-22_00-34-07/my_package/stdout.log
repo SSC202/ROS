@@ -1,0 +1,41 @@
+running egg_info
+creating ../../build/my_package/my_package.egg-info
+writing ../../build/my_package/my_package.egg-info/PKG-INFO
+writing dependency_links to ../../build/my_package/my_package.egg-info/dependency_links.txt
+writing entry points to ../../build/my_package/my_package.egg-info/entry_points.txt
+writing requirements to ../../build/my_package/my_package.egg-info/requires.txt
+writing top-level names to ../../build/my_package/my_package.egg-info/top_level.txt
+writing manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+reading manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+writing manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build
+creating /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib
+creating /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package
+copying my_package/__init__.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package
+copying my_package/my_robot_driver.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package
+running install
+running install_lib
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package
+copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/__init__.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package
+copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/my_robot_driver.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package
+byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/__init__.py to __init__.cpython-38.pyc
+byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/my_robot_driver.py to my_robot_driver.cpython-38.pyc
+running install_data
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index/resource_index
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index/resource_index/packages
+copying resource/my_package -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index/resource_index/packages
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/launch
+copying launch/robot_launch.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/launch
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/worlds
+copying worlds/my_world.wbt -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/worlds
+creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/resource
+copying resource/my_robot.urdf -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/resource
+copying package.xml -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package
+running install_egg_info
+Copying ../../build/my_package/my_package.egg-info to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package-0.0.0-py3.8.egg-info
+running install_scripts
+Installing my_robot_driver script to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/my_package
+writing list of installed files to '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log'

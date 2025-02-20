@@ -1,0 +1,76 @@
+[0.000000] (-) TimerEvent: {}
+[0.002955] (my_package) JobQueued: {'identifier': 'my_package', 'dependencies': OrderedDict()}
+[0.009037] (my_package) JobStarted: {'identifier': 'my_package'}
+[0.107037] (-) TimerEvent: {}
+[0.239954] (-) TimerEvent: {}
+[0.340693] (-) TimerEvent: {}
+[0.445750] (-) TimerEvent: {}
+[0.546400] (-) TimerEvent: {}
+[0.647123] (-) TimerEvent: {}
+[0.748689] (-) TimerEvent: {}
+[0.853980] (-) TimerEvent: {}
+[0.964667] (-) TimerEvent: {}
+[1.080487] (-) TimerEvent: {}
+[1.184263] (-) TimerEvent: {}
+[1.286909] (-) TimerEvent: {}
+[1.389657] (-) TimerEvent: {}
+[1.491882] (-) TimerEvent: {}
+[1.593891] (-) TimerEvent: {}
+[1.695746] (-) TimerEvent: {}
+[1.797611] (-) TimerEvent: {}
+[1.899402] (-) TimerEvent: {}
+[1.991740] (my_package) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/my_package', 'build', '--build-base', '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build', 'install', '--record', '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log', '--install-scripts', '$base/lib/my_package', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/ssc/Desktop/webots_ros2_test_ws/src/my_package', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'ssc', 'SSH_AGENT_PID': '1415', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/x86_64-linux-gnu:/opt/ros/foxy/lib', 'HOME': '/home/ssc', 'CHROME_DESKTOP': 'code-url-handler.desktop', 'TERM_PROGRAM_VERSION': '1.86.2', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '1317', 'DBUS_STARTER_BUS_TYPE': 'session', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus,guid=c6a46af0694904881866935f669d2620', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'ROS_DISTRO': 'foxy', 'LOGNAME': 'ssc', 'JOURNAL_STREAM': '8:48457', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'ssc', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'WINDOWPATH': '2', 'PATH': '/opt/ros/foxy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'SESSION_MANAGER': 'local/ubuntu:@/tmp/.ICE-unix/1450,unix/ubuntu:/tmp/.ICE-unix/1450', 'INVOCATION_ID': '2526df13edff4c7b9aabf054a8423ca4', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/1d27c4b5_bb29_42ab_a874_631fb33a79ef', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'Unity', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.939', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/opt/ros/foxy', 'ORIGINAL_XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'DBUS_STARTER_ADDRESS': 'unix:path=/run/user/1000/bus,guid=c6a46af0694904881866935f669d2620', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages', 'COLCON': '1', 'VTE_VERSION': '6003'}, 'shell': False}
+[2.007999] (-) TimerEvent: {}
+[2.112575] (-) TimerEvent: {}
+[2.215484] (-) TimerEvent: {}
+[2.318148] (-) TimerEvent: {}
+[2.420548] (-) TimerEvent: {}
+[2.522198] (-) TimerEvent: {}
+[2.624975] (-) TimerEvent: {}
+[2.644892] (my_package) StdoutLine: {'line': b'running egg_info\n'}
+[2.648618] (my_package) StdoutLine: {'line': b'creating ../../build/my_package/my_package.egg-info\n'}
+[2.650000] (my_package) StdoutLine: {'line': b'writing ../../build/my_package/my_package.egg-info/PKG-INFO\n'}
+[2.651835] (my_package) StdoutLine: {'line': b'writing dependency_links to ../../build/my_package/my_package.egg-info/dependency_links.txt\n'}
+[2.653607] (my_package) StdoutLine: {'line': b'writing entry points to ../../build/my_package/my_package.egg-info/entry_points.txt\n'}
+[2.655212] (my_package) StdoutLine: {'line': b'writing requirements to ../../build/my_package/my_package.egg-info/requires.txt\n'}
+[2.656660] (my_package) StdoutLine: {'line': b'writing top-level names to ../../build/my_package/my_package.egg-info/top_level.txt\n'}
+[2.661694] (my_package) StdoutLine: {'line': b"writing manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'\n"}
+[2.715008] (my_package) StdoutLine: {'line': b"reading manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'\n"}
+[2.717939] (my_package) StdoutLine: {'line': b"writing manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'\n"}
+[2.719944] (my_package) StdoutLine: {'line': b'running build\n'}
+[2.721197] (my_package) StdoutLine: {'line': b'running build_py\n'}
+[2.722741] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build\n'}
+[2.724024] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib\n'}
+[2.725203] (-) TimerEvent: {}
+[2.730152] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package\n'}
+[2.735319] (my_package) StdoutLine: {'line': b'copying my_package/__init__.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package\n'}
+[2.736561] (my_package) StdoutLine: {'line': b'copying my_package/my_robot_driver.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package\n'}
+[2.738682] (my_package) StdoutLine: {'line': b'running install\n'}
+[2.744972] (my_package) StdoutLine: {'line': b'running install_lib\n'}
+[2.748177] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package\n'}
+[2.749581] (my_package) StdoutLine: {'line': b'copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/__init__.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package\n'}
+[2.754126] (my_package) StdoutLine: {'line': b'copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/my_robot_driver.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package\n'}
+[2.755643] (my_package) StdoutLine: {'line': b'byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/__init__.py to __init__.cpython-38.pyc\n'}
+[2.758359] (my_package) StdoutLine: {'line': b'byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/my_robot_driver.py to my_robot_driver.cpython-38.pyc\n'}
+[2.768445] (my_package) StdoutLine: {'line': b'running install_data\n'}
+[2.769521] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index\n'}
+[2.770711] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index/resource_index\n'}
+[2.771633] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index/resource_index/packages\n'}
+[2.773428] (my_package) StdoutLine: {'line': b'copying resource/my_package -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/ament_index/resource_index/packages\n'}
+[2.775413] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/launch\n'}
+[2.776385] (my_package) StdoutLine: {'line': b'copying launch/robot_launch.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/launch\n'}
+[2.780772] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/worlds\n'}
+[2.782254] (my_package) StdoutLine: {'line': b'copying worlds/my_world.wbt -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/worlds\n'}
+[2.785004] (my_package) StdoutLine: {'line': b'creating /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/resource\n'}
+[2.786558] (my_package) StdoutLine: {'line': b'copying resource/my_robot.urdf -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/resource\n'}
+[2.789833] (my_package) StdoutLine: {'line': b'copying package.xml -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package\n'}
+[2.792715] (my_package) StdoutLine: {'line': b'running install_egg_info\n'}
+[2.799648] (my_package) StdoutLine: {'line': b'Copying ../../build/my_package/my_package.egg-info to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package-0.0.0-py3.8.egg-info\n'}
+[2.811276] (my_package) StdoutLine: {'line': b'running install_scripts\n'}
+[2.825419] (-) TimerEvent: {}
+[2.864613] (my_package) StdoutLine: {'line': b'Installing my_robot_driver script to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/my_package\n'}
+[2.868493] (my_package) StdoutLine: {'line': b"writing list of installed files to '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log'\n"}
+[2.928613] (-) TimerEvent: {}
+[2.931651] (my_package) CommandEnded: {'returncode': 0}
+[2.997476] (my_package) JobEnded: {'identifier': 'my_package', 'rc': 0}
+[3.005465] (-) EventReactorShutdown: {}

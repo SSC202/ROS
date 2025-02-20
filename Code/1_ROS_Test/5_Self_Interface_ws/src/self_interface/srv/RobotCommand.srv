@@ -1,0 +1,5 @@
+# 机器人移动的距离（一维）
+float32 distance
+---
+# 机器人当前位置（x坐标）
+float32 pose

@@ -1,0 +1,30 @@
+[1.885s] Invoking command in '/home/ssc/Desktop/webots_ros2_test_ws/src/my_package': PYTHONPATH=/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/my_package build --build-base /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build install --record /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log --install-scripts $base/lib/my_package --single-version-externally-managed install_data
+[2.507s] running egg_info
+[2.509s] writing ../../build/my_package/my_package.egg-info/PKG-INFO
+[2.511s] writing dependency_links to ../../build/my_package/my_package.egg-info/dependency_links.txt
+[2.512s] writing entry points to ../../build/my_package/my_package.egg-info/entry_points.txt
+[2.513s] writing requirements to ../../build/my_package/my_package.egg-info/requires.txt
+[2.514s] writing top-level names to ../../build/my_package/my_package.egg-info/top_level.txt
+[2.621s] reading manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+[2.628s] writing manifest file '../../build/my_package/my_package.egg-info/SOURCES.txt'
+[2.629s] running build
+[2.629s] running build_py
+[2.629s] copying my_package/obstacle_avoider.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package
+[2.629s] copying my_package/my_robot_driver.py -> /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package
+[2.631s] running install
+[2.636s] running install_lib
+[2.649s] copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/obstacle_avoider.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package
+[2.650s] copying /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build/lib/my_package/my_robot_driver.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package
+[2.652s] byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/obstacle_avoider.py to obstacle_avoider.cpython-38.pyc
+[2.654s] byte-compiling /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package/my_robot_driver.py to my_robot_driver.cpython-38.pyc
+[2.655s] running install_data
+[2.658s] copying launch/robot_launch.py -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/launch
+[2.658s] copying worlds/my_world.wbt -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/worlds
+[2.659s] copying resource/my_robot.urdf -> /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/share/my_package/resource
+[2.660s] running install_egg_info
+[2.668s] removing '/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package-0.0.0-py3.8.egg-info' (and everything under it)
+[2.669s] Copying ../../build/my_package/my_package.egg-info to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages/my_package-0.0.0-py3.8.egg-info
+[2.676s] running install_scripts
+[2.729s] Installing my_robot_driver script to /home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/my_package
+[2.732s] writing list of installed files to '/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log'
+[2.809s] Invoked command in '/home/ssc/Desktop/webots_ros2_test_ws/src/my_package' returned '0': PYTHONPATH=/home/ssc/Desktop/webots_ros2_test_ws/build/my_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/ssc/Desktop/webots_ros2_test_ws/install/my_package/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/my_package build --build-base /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/build install --record /home/ssc/Desktop/webots_ros2_test_ws/build/my_package/install.log --install-scripts $base/lib/my_package --single-version-externally-managed install_data

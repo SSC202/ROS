@@ -1,0 +1,152 @@
+#VRML_SIM R2023a utf8
+# Describe the functionality of your PROTO here.
+
+
+PROTO WheelsRobot [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    bodyMass     1
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DistanceSensor {
+        translation 0.1 0.02 0
+        rotation 0 0 1 0.1
+        children [
+          DEF DS_BOX Shape {
+            appearance PBRAppearance {
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_left"
+        boundingObject USE DS_BOX
+        physics Physics {
+        }
+      }
+      DistanceSensor {
+        translation 0.1 -0.02 0
+        rotation 0 0 1 -0.1
+        children [
+          USE DS_BOX
+        ]
+        name "ds_right"
+        boundingObject USE DS_BOX
+        physics Physics {
+        }
+      }
+      DEF WHEEL1 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.06 0.05 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel1"
+          }
+        ]
+        endPoint Solid {
+          translation 0.06 0.05 0
+          rotation 1 0 0 1.5707996938995745
+          children [
+            DEF WHEEL Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+              }
+              geometry Cylinder {
+                height 0.01
+                radius 0.04
+              }
+            }
+          ]
+          name "wheel1"
+          boundingObject USE WHEEL
+          physics DEF WHEEL_PH Physics {
+          }
+        }
+      }
+      DEF WHEEL2 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.06 0.05 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel2"
+          }
+        ]
+        endPoint Solid {
+          translation -0.06 0.05 0
+          rotation 1 0 0 1.5708003061004252
+          children [
+            USE WHEEL
+          ]
+          name "wheel2"
+          boundingObject USE WHEEL
+          physics USE WHEEL_PH
+        }
+      }
+      DEF WHEEL3 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.06 -0.05 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel3"
+          }
+        ]
+        endPoint Solid {
+          translation 0.06 -0.05 0
+          rotation 1 0 0 1.5707996938995747
+          children [
+            USE WHEEL
+          ]
+          name "wheel3"
+          boundingObject USE WHEEL
+          physics USE WHEEL_PH
+        }
+      }
+      DEF WHEEL4 HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.06 -0.05 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel4"
+          }
+        ]
+        endPoint Solid {
+          translation -0.06 -0.05 0
+          rotation 1 0 0 1.5707996938995747
+          children [
+            USE WHEEL
+          ]
+          name "wheel4"
+          boundingObject USE WHEEL
+          physics USE WHEEL_PH
+        }
+      }
+      DEF BODY Shape {
+        appearance PBRAppearance {
+          baseColor 1 0 0
+        }
+        geometry Box {
+          size 0.2 0.1 0.02
+        }
+      }
+    ]
+    boundingObject USE BODY
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+    controller "wheel_robot_controller"
+  }
+}
