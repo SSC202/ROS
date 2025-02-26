@@ -1,10 +1,10 @@
-# ROS2 4_坐标变换heTF组件
+# ROS2 4_坐标变换 TF组件
 
-## 1. 位姿的描述
+## 1. 位姿的描述(坐标系变换)
 
 ### 刚体位姿的描述
 
-对于平面上的刚体，可以使用3个平动自由度和1个转动自由度描述；对于空间中的刚体，可以使用3个平动自由度和1个转动自由度描述。
+对于平面上的刚体，可以使用2个平动自由度和1个转动自由度描述；对于空间中的刚体，可以使用3个平动自由度和1个转动自由度描述。
 
 通常的，确定一个**世界坐标系**(world frame，记为$\{W\}$)，对于机器人上的刚体，通常以质心为原点确定一个固连于刚体上的**刚体坐标系**(body frame，记为$\{B\}$)。
 
@@ -170,17 +170,25 @@ $$
 
 任何姿态都可以通过选择适当的轴和角度得到，换句话说，两个坐标系之间的任何姿态都可以通过绕某一个特定的轴(矢量)旋转特定的角度得到。
 
-通过上述公式，轴角对应的旋转矩阵为：
+通过上述公式，**轴角对应的旋转矩阵**为(罗德里格斯公式)：
 $$
-^P_AR = \left[\begin{matrix} 
+^B_AR = \left[\begin{matrix} 
 k_xk_x(1-cos\theta)+cos\theta & k_xk_y(1-cos\theta)-k_zsin\theta & k_xk_z(1-cos\theta) + k_ysin\theta \\
 k_xk_y(1-cos\theta)+k_zsin\theta & k_yk_y(1-cos\theta)+cos\theta & k_yk_z(1-cos\theta)-k_xsin\theta \\ 
 k_xk_z(1-cos\theta)-k_ysin\theta & k_yk_z(1-cos\theta)+k_xsin\theta &
 k_zk_z(1-cos\theta)+cos\theta
 
 \end{matrix}\right]
+= cos\theta\bold{E}+(1-cos\theta)\bold{KK^T}+sin\theta\bold{K^-}
 $$
 $K = \left[\begin{matrix} k_x & k_y & k_z \end{matrix}\right]$为轴单位矢量（$\{A\}$中坐标），$\theta$为旋转角度。
+
+**旋转矩阵对应轴角**：
+$$
+\theta = arccos(\frac{tr(^B_AR)-1}{2}) \\
+^B_ARK = K
+$$
+
 
 #### 四元数
 
@@ -226,7 +234,7 @@ $$
 > 𝑞_1𝑞_2 = [𝑠𝑡 − \overrightarrow{v} \cdot \overrightarrow{u}, 𝑠\overrightarrow{u} + 𝑡\overrightarrow{v} + \overrightarrow{v} \times \overrightarrow{u}]
 > $$
 
-- 四元数和旋转
+- 四元数和旋转矩阵
 
 两个纯四元数乘法公式如下：
 $$
@@ -253,14 +261,27 @@ $$
 v^, = qvq^{-1} \\
 q = [cos(\frac{1}{2}\theta),sin(\frac{1}{2}\theta)\overrightarrow{u}]
 $$
-表示为旋转ju'zhen
+**四元数表示为旋转矩阵**：
 $$
-^A_PR = \left[\begin{matrix} 
+^A_BR = \left[\begin{matrix} 
 1-2y^2-2z^2 & 2(xy-zw) & 2(xz+yw) \\
 2(xy+zw) & 1-2x^2-2z^2 &  2(yz-xw) \\ 
 2(xz-yw) & 2(yz+xw) & 1-2x^2-2y^2
 \end{matrix}\right]
 $$
+
+**旋转矩阵表示为四元数**：
+$$
+x = \frac{^A_BR_{32}-^A_BR_{23}}{4w} \\
+y = \frac{^A_BR_{13}-^A_BR_{31}}{4w} \\
+z = \frac{^A_BR_{21}-^A_BR_{12}}{4w} \\
+w = \frac{1}{2}\sqrt{1+tr({^A_BR})}
+$$
+**轴角表示为四元数**:
+$$
+q = [cos(\frac{1}{2}\theta),sin(\frac{1}{2}\theta)\overrightarrow{u}]
+$$
+此时使用逆变换可以将四元数转换为轴角。
 
 ### 代码实现姿态表示方法的转换
 
@@ -275,8 +296,8 @@ import transforms3d as tfs
 ### 齐次变换矩阵
 
 $$
-T = \left[\begin{matrix} 
-^P_AR & ^P_AP \\ 
+^B_AT = \left[\begin{matrix} 
+^B_AR & ^B_AP \\ 
 0 & 1
 
 \end{matrix}\right]
@@ -299,6 +320,8 @@ tfs.quaternions.mat2quat(T[0:3,0:3]),T[:3,3:4] #  分解为四元数和平移向
 ```
 
 ## 2. ROS2 TF坐标变换
+
+ROS2 内各个坐标系之间的关系可以使用 TF2 组件发布。
 
 ### TF2 的 CLI 命令
 
