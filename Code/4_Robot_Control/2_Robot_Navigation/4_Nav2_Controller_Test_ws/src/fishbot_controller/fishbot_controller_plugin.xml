@@ -1,0 +1,7 @@
+<class_libraries>
+    <library path="fishbot_controller_plugin">
+        <class type="fishbot_controller::FishbotController" base_class_type="nav2_core::Controller">
+            <description>Fishbot Controller</description>
+        </class>
+    </library>
+</class_libraries>

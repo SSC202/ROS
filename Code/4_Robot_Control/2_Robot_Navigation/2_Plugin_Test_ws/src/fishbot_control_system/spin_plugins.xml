@@ -1,0 +1,7 @@
+<!-- 定义一个库。属性 path 为动态库的名字（表示库的路径） -->
+<library path="spin_controller">
+    <!-- 子标签 class，指定插件类的名字、类、抽象基类-->
+    <class name="fishbot_control_system/SpinController" type="fishbot_control_system::SpinController" base_class_type="fishbot_control_system::FishbotController">
+        <description>Spin Controller</description>
+    </class>
+</library>

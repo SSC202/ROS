@@ -1,0 +1,5 @@
+<library path="fishbot_planner_plugin">
+    <class name="fishbot_planner/FishbotPlanner" type="fishbot_planner::FishbotPlanner" base_class_type="nav2_core::GlobalPlanner">
+        <description>FishbotPlanner</description>
+    </class>
+</library>
